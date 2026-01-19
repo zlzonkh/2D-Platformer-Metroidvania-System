@@ -37,6 +37,7 @@ ExportedObj/
 *.csproj
 *.unityproj
 *.sln
+*.slnx
 *.suo
 *.tmp
 *.user
@@ -77,3 +78,6 @@ crashlytics-build.properties
 # Paid Assets
 /[Aa]ssets/[Pp]lugins/vFolders*
 /[Aa]ssets/[Pp]lugins/vHierarchy*
+
+# Visual Studio Code settings
+.vscode/
