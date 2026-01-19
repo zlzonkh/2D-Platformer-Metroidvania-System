@@ -1,2 +1,12 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Unity-specific text files
+*.meta text eol=lf
+*.inputactions text eol=lf
+*.asset text eol=lf
+*.unity text eol=lf
+*.prefab text eol=lf
+
+# Explicitly handle C# scripts
+*.cs text diff=csharp eol=lf
