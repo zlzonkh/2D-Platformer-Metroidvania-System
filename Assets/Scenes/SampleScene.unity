@@ -786,6 +786,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa19f406e7891184e984a2577cf3d97b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  <MoveSpeed>k__BackingField: 5
+  <JumpForce>k__BackingField: 12.8
+  <JumpCutMultiplier>k__BackingField: 0.309
 --- !u!1 &1210441220
 GameObject:
   m_ObjectHideFlags: 0

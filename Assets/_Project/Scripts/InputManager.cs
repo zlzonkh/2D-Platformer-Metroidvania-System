@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,6 +19,10 @@ public class InputManager : MonoBehaviour
     // --- Properties to Expose Input Values ---
     public float MoveInput { get; private set; }
     public bool IsJumpPressed { get; private set; }
+
+    // --- Events for Input Actions ---
+    public event Action OnJumpStarted;
+    public event Action OnJumpCanceled;
 
     void Awake()
     {
@@ -61,5 +66,14 @@ public class InputManager : MonoBehaviour
     void OnJump(InputAction.CallbackContext context)
     {
         IsJumpPressed = context.ReadValueAsButton();
+
+        if (context.performed)
+        {
+            OnJumpStarted?.Invoke();
+        }
+        else if (context.canceled)
+        {
+            OnJumpCanceled?.Invoke();
+        }
     }
 }
