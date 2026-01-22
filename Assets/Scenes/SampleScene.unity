@@ -753,6 +753,8 @@ MonoBehaviour:
   <MoveSpeed>k__BackingField: 5
   <JumpForce>k__BackingField: 12.8
   <JumpCutMultiplier>k__BackingField: 0.309
+  <CoyoteTime>k__BackingField: 0.05
+  _coyoteTimer: 0
   _groundCheck: {fileID: 2125388317}
   _groundCheckSize: {x: 0.425, y: 0.05}
   _groundLayer:

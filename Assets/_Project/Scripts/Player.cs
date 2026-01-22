@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     [field: Header("Jump Settings")] // Values related to player jumping
     [field: SerializeField] public float JumpForce { get; private set; } = 12.8f;
     [field: SerializeField] public float JumpCutMultiplier { get; private set; } = 0.309f;
+    [field: SerializeField] public float CoyoteTime { get; private set; } = 0.05f;
+    private float _coyoteTimer = 0.0f;
 
     [Header("Ground Check Settings")] // Values related to ground detection
     [SerializeField] private Transform _groundCheck;
@@ -42,6 +44,11 @@ public class Player : MonoBehaviour
         _input = InputManager.Instance;
     }
 
+    void Update()
+    {
+        HandleTimers();
+    }
+
     void FixedUpdate()
     {
         CheckGroundedStatus();
@@ -69,6 +76,22 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
+    /// Handles timers such as coyote timer.
+    /// </summary>
+    void HandleTimers()
+    {
+        if (!_isGrounded)
+        {
+            if (_coyoteTimer > 0) _coyoteTimer -= Time.deltaTime;
+            else _coyoteTimer = 0;
+        }
+        else
+        {
+            _coyoteTimer = CoyoteTime;
+        }
+    }
+
+    /// <summary>
     /// Applies movement to the player based on input.
     /// </summary>
     void ApplyMovement()
@@ -90,8 +113,9 @@ public class Player : MonoBehaviour
     /// </summary>
     void ApplyJump()
     {
-        if (_isGrounded)
+        if (_isGrounded || _coyoteTimer > 0)
         {
+            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0); // Reset vertical velocity before jumping.
             _rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
         }
     }
