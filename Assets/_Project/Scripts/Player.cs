@@ -9,7 +9,9 @@ public class Player : MonoBehaviour
     [field: SerializeField] public float JumpForce { get; private set; } = 12.8f;
     [field: SerializeField] public float JumpCutMultiplier { get; private set; } = 0.309f;
     [field: SerializeField] public float CoyoteTime { get; private set; } = 0.05f;
+    [field: SerializeField] public float JumpBufferTime { get; private set; } = 0.05f;
     private float _coyoteTimer = 0.0f;
+    private float _jumpBufferTimer = 0.0f;
     private bool _isJumping = false;
 
     [Header("Ground Check Settings")] // Values related to ground detection
@@ -54,6 +56,7 @@ public class Player : MonoBehaviour
     {
         CheckGroundedStatus();
         UpdatePhysicsState();
+        ApplyJumpBuffer();
         ApplyMovement();
     }
 
@@ -91,6 +94,9 @@ public class Player : MonoBehaviour
         {
             _coyoteTimer = CoyoteTime;
         }
+
+        if (_jumpBufferTimer > 0) _jumpBufferTimer -= Time.deltaTime;
+        else _jumpBufferTimer = 0;
     }
 
     /// <summary>
@@ -122,15 +128,37 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
+    /// Applies jump if pressed jump button just before landing.
+    /// </summary>
+    void ApplyJumpBuffer()
+    {
+        if (_jumpBufferTimer > 0 && (_isGrounded || _coyoteTimer > 0) && !_isJumping)
+        {
+            ApplyJump();
+        }
+    }
+
+    /// <summary>
+    /// Executes the physical jump action.
+    /// </summary>
+    void ExcuteJump()
+    {
+        _isJumping = true;
+        _jumpBufferTimer = 0;
+
+        _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0); // Reset vertical velocity before jumping.
+        _rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
+    }
+
+    /// <summary>
     /// Applies jump force to the player when jump input is initiated.
     /// </summary>
     void ApplyJump()
     {
+        _jumpBufferTimer = JumpBufferTime;
         if ((_isGrounded || _coyoteTimer > 0) && !_isJumping)
         {
-            _isJumping = true;
-            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0); // Reset vertical velocity before jumping.
-            _rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
+            ExcuteJump();
         }
     }
 
