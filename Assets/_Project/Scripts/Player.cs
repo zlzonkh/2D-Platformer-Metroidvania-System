@@ -143,7 +143,9 @@ public class Player : MonoBehaviour
     /// </summary>
     void ExcuteJump()
     {
+        // Reset jump state to prevent duplicate jumps.
         _isJumping = true;
+        _coyoteTimer = 0;
         _jumpBufferTimer = 0;
 
         _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0); // Reset vertical velocity before jumping.
