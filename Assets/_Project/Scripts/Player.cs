@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [Header("Movement Settings")] // Values related to player movement
+    [field: Header("Movement Settings")] // Values related to player movement
     [field: SerializeField] public float MoveSpeed { get; private set; } = 5.0f;
 
-    [Header("Jump Settings")] // Values related to player jumping
+    [field: Header("Jump Settings")] // Values related to player jumping
     [field: SerializeField] public float JumpForce { get; private set; } = 12.8f;
     [field: SerializeField] public float JumpCutMultiplier { get; private set; } = 0.309f;
 
