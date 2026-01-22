@@ -9,6 +9,12 @@ public class Player : MonoBehaviour
     [field: SerializeField] public float JumpForce { get; private set; } = 12.8f;
     [field: SerializeField] public float JumpCutMultiplier { get; private set; } = 0.309f;
 
+    [Header("Ground Check Settings")] // Values related to ground detection
+    [SerializeField] private Transform _groundCheck;
+    [SerializeField] private Vector2 _groundCheckSize = new(0.425f, 0.05f);
+    [SerializeField] private LayerMask _groundLayer;
+    private bool _isGrounded = false;
+
     Rigidbody2D _rb;
     InputManager _input;
 
@@ -38,7 +44,18 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        CheckGroundedStatus();
         ApplyMovement();
+    }
+
+    void OnDrawGizmos()
+    {
+        // Visualize the ground check area in the editor
+        if (_groundCheck != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(_groundCheck.position, _groundCheckSize);
+        }
     }
 
     void OnDisable()
@@ -61,11 +78,22 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
+    /// Checks if the player is grounded.
+    /// </summary>
+    void CheckGroundedStatus()
+    {
+        _isGrounded = Physics2D.OverlapBox(_groundCheck.position, _groundCheckSize, 0, _groundLayer);
+    }
+
+    /// <summary>
     /// Applies jump force to the player when jump input is initiated.
     /// </summary>
     void ApplyJump()
     {
-        _rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
+        if (_isGrounded)
+        {
+            _rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
+        }
     }
 
     /// <summary>

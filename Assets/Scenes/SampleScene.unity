@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 70888429}
   - component: {fileID: 70888430}
   - component: {fileID: 70888431}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 138334767}
   - component: {fileID: 138334768}
   - component: {fileID: 138334769}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -707,7 +707,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2125388317}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1068929832
@@ -752,6 +753,11 @@ MonoBehaviour:
   <MoveSpeed>k__BackingField: 5
   <JumpForce>k__BackingField: 12.8
   <JumpCutMultiplier>k__BackingField: 0.309
+  _groundCheck: {fileID: 2125388317}
+  _groundCheckSize: {x: 0.425, y: 0.05}
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!61 &1068929835
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -919,7 +925,7 @@ GameObject:
   - component: {fileID: 1335639759}
   - component: {fileID: 1335639760}
   - component: {fileID: 1335639761}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1057,7 +1063,7 @@ GameObject:
   - component: {fileID: 1465993061}
   - component: {fileID: 1465993062}
   - component: {fileID: 1465993063}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1184,6 +1190,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &2125388316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2125388317}
+  m_Layer: 0
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2125388317
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125388316}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1068929831}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
