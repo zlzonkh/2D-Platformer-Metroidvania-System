@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [field: SerializeField] public float JumpCutMultiplier { get; private set; } = 0.309f;
     [field: SerializeField] public float CoyoteTime { get; private set; } = 0.05f;
     private float _coyoteTimer = 0.0f;
+    private bool _isJumping = false;
 
     [Header("Ground Check Settings")] // Values related to ground detection
     [SerializeField] private Transform _groundCheck;
@@ -52,6 +53,7 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         CheckGroundedStatus();
+        UpdatePhysicsState();
         ApplyMovement();
     }
 
@@ -109,12 +111,24 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
+    /// Updates the player's physics state, including jumping status.
+    /// </summary>
+    void UpdatePhysicsState()
+    {
+        if (_isGrounded && _rb.linearVelocity.y <= 0)
+        {
+            _isJumping = false;
+        }
+    }
+
+    /// <summary>
     /// Applies jump force to the player when jump input is initiated.
     /// </summary>
     void ApplyJump()
     {
-        if (_isGrounded || _coyoteTimer > 0)
+        if ((_isGrounded || _coyoteTimer > 0) && !_isJumping)
         {
+            _isJumping = true;
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0); // Reset vertical velocity before jumping.
             _rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
         }
