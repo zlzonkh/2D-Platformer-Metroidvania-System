@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
     private bool _isGrounded = false;
 
+    private bool CanJump => (_isGrounded || _coyoteTimer > 0) && !_isJumping;
+
     Rigidbody2D _rb;
     InputManager _input;
 
@@ -47,7 +49,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        HandleTimers();
+        UpdateTimers();
     }
 
     void FixedUpdate()
@@ -76,20 +78,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    void HandleTimers()
+    void UpdateTimers()
     {
-        if (!_isGrounded)
-        {
-            if (_coyoteTimer > 0) _coyoteTimer -= Time.deltaTime;
-            else _coyoteTimer = 0;
-        }
-        else
-        {
-            _coyoteTimer = CoyoteTime;
-        }
-
-        if (_jumpBufferTimer > 0) _jumpBufferTimer -= Time.deltaTime;
-        else _jumpBufferTimer = 0;
+        _coyoteTimer = _isGrounded ? CoyoteTime : Mathf.Max(0, _coyoteTimer - Time.deltaTime);
+        _jumpBufferTimer = Mathf.Max(0, _jumpBufferTimer - Time.deltaTime);
     }
 
     void ApplyMovement()
@@ -105,7 +97,7 @@ public class Player : MonoBehaviour
 
     void UpdatePhysicsState()
     {
-        if (_isGrounded && _rb.linearVelocity.y <= 0)
+        if (_isGrounded && _rb.linearVelocity.y <= 0.01f)
         {
             _isJumping = false;
         }
@@ -113,9 +105,9 @@ public class Player : MonoBehaviour
 
     void ProcessJumpBuffer()
     {
-        if (_jumpBufferTimer > 0 && (_isGrounded || _coyoteTimer > 0) && !_isJumping)
+        if (_jumpBufferTimer > 0 && CanJump)
         {
-            HandleJumpInput();
+            ExecuteJump();
         }
     }
 
@@ -132,7 +124,7 @@ public class Player : MonoBehaviour
     void HandleJumpInput()
     {
         _jumpBufferTimer = JumpBufferTime;
-        if ((_isGrounded || _coyoteTimer > 0) && !_isJumping)
+        if (CanJump)
         {
             ExecuteJump();
         }
