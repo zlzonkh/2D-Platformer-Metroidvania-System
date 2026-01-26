@@ -10,20 +10,23 @@ public class Player : MonoBehaviour
     [field: SerializeField] public float JumpCutMultiplier { get; private set; } = 0.309f;
     [field: SerializeField] public float CoyoteTime { get; private set; } = 0.05f;
     [field: SerializeField] public float JumpBufferTime { get; private set; } = 0.05f;
-    private float _coyoteTimer = 0.0f;
-    private float _jumpBufferTimer = 0.0f;
-    private bool _isJumping = false;
 
     [Header("Detection")]
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private Vector2 _groundCheckSize = new(0.425f, 0.05f);
     [SerializeField] private LayerMask _groundLayer;
+
+    Rigidbody2D _rb;
+    InputManager _input;
+
+    private float _coyoteTimer = 0.0f;
+    private float _jumpBufferTimer = 0.0f;
+    private bool _isJumping = false;
     private bool _isGrounded = false;
 
     private bool CanJump => (_isGrounded || _coyoteTimer > 0) && !_isJumping;
 
-    Rigidbody2D _rb;
-    InputManager _input;
+    #region Unity Lifecycle
 
     void Awake()
     {
@@ -60,15 +63,6 @@ public class Player : MonoBehaviour
         ApplyMovement();
     }
 
-    void OnDrawGizmos()
-    {
-        if (_groundCheck != null)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(_groundCheck.position, _groundCheckSize);
-        }
-    }
-
     void OnDisable()
     {
         if (InputManager.Instance != null)
@@ -78,17 +72,18 @@ public class Player : MonoBehaviour
         }
     }
 
-    void UpdateTimers()
+    void OnDrawGizmos()
     {
-        _coyoteTimer = _isGrounded ? CoyoteTime : Mathf.Max(0, _coyoteTimer - Time.deltaTime);
-        _jumpBufferTimer = Mathf.Max(0, _jumpBufferTimer - Time.deltaTime);
+        if (_groundCheck != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(_groundCheck.position, _groundCheckSize);
+        }
     }
 
-    void ApplyMovement()
-    {
-        float moveInput = _input.MoveInput;
-        _rb.linearVelocity = new Vector2(moveInput * MoveSpeed, _rb.linearVelocity.y);
-    }
+    #endregion
+
+    #region Environment & State
 
     void CheckGroundedStatus()
     {
@@ -101,6 +96,26 @@ public class Player : MonoBehaviour
         {
             _isJumping = false;
         }
+    }
+
+    #endregion
+
+    #region Horizontal Movement
+
+    void ApplyMovement()
+    {
+        float moveInput = _input.MoveInput;
+        _rb.linearVelocity = new Vector2(moveInput * MoveSpeed, _rb.linearVelocity.y);
+    }
+
+    #endregion
+
+    #region Jump Mechanics
+
+    void UpdateTimers()
+    {
+        _coyoteTimer = _isGrounded ? CoyoteTime : Mathf.Max(0, _coyoteTimer - Time.deltaTime);
+        _jumpBufferTimer = Mathf.Max(0, _jumpBufferTimer - Time.deltaTime);
     }
 
     void ProcessJumpBuffer()
@@ -137,4 +152,6 @@ public class Player : MonoBehaviour
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _rb.linearVelocity.y * JumpCutMultiplier);
         }
     }
+
+    #endregion
 }
