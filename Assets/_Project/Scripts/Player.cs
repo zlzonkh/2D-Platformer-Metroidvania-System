@@ -33,10 +33,10 @@ public class Player : MonoBehaviour
         if (InputManager.Instance != null)
         {
             // Unsubscribe first to prevent duplicate subscriptions
-            InputManager.Instance.OnJumpStarted -= ApplyJump;
+            InputManager.Instance.OnJumpStarted -= HandleJumpInput;
             InputManager.Instance.OnJumpCanceled -= CutJump;
 
-            InputManager.Instance.OnJumpStarted += ApplyJump;
+            InputManager.Instance.OnJumpStarted += HandleJumpInput;
             InputManager.Instance.OnJumpCanceled += CutJump;
         }
     }
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
     {
         CheckGroundedStatus();
         UpdatePhysicsState();
-        ApplyJumpBuffer();
+        ProcessJumpBuffer();
         ApplyMovement();
     }
 
@@ -75,7 +75,7 @@ public class Player : MonoBehaviour
         // Unsubscribe from input events to prevent memory leaks
         if (InputManager.Instance != null)
         {
-            InputManager.Instance.OnJumpStarted -= ApplyJump;
+            InputManager.Instance.OnJumpStarted -= HandleJumpInput;
             InputManager.Instance.OnJumpCanceled -= CutJump;
         }
     }
@@ -130,18 +130,18 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Applies jump if pressed jump button just before landing.
     /// </summary>
-    void ApplyJumpBuffer()
+    void ProcessJumpBuffer()
     {
         if (_jumpBufferTimer > 0 && (_isGrounded || _coyoteTimer > 0) && !_isJumping)
         {
-            ApplyJump();
+            HandleJumpInput();
         }
     }
 
     /// <summary>
     /// Executes the physical jump action.
     /// </summary>
-    void ExcuteJump()
+    void ExecuteJump()
     {
         // Reset jump state to prevent duplicate jumps.
         _isJumping = true;
@@ -155,12 +155,12 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Applies jump force to the player when jump input is initiated.
     /// </summary>
-    void ApplyJump()
+    void HandleJumpInput()
     {
         _jumpBufferTimer = JumpBufferTime;
         if ((_isGrounded || _coyoteTimer > 0) && !_isJumping)
         {
-            ExcuteJump();
+            ExecuteJump();
         }
     }
 
