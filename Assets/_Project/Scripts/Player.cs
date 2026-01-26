@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [field: Header("Movement Settings")] // Values related to player movement
+    [field: Header("Movement")]
     [field: SerializeField] public float MoveSpeed { get; private set; } = 5.0f;
 
-    [field: Header("Jump Settings")] // Values related to player jumping
+    [field: Header("Jump")]
     [field: SerializeField] public float JumpForce { get; private set; } = 12.8f;
     [field: SerializeField] public float JumpCutMultiplier { get; private set; } = 0.309f;
     [field: SerializeField] public float CoyoteTime { get; private set; } = 0.05f;
@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     private float _jumpBufferTimer = 0.0f;
     private bool _isJumping = false;
 
-    [Header("Ground Check Settings")] // Values related to ground detection
+    [Header("Detection")]
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private Vector2 _groundCheckSize = new(0.425f, 0.05f);
     [SerializeField] private LayerMask _groundLayer;
@@ -32,7 +32,6 @@ public class Player : MonoBehaviour
     {
         if (InputManager.Instance != null)
         {
-            // Unsubscribe first to prevent duplicate subscriptions
             InputManager.Instance.OnJumpStarted -= HandleJumpInput;
             InputManager.Instance.OnJumpCanceled -= CutJump;
 
@@ -43,7 +42,6 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        // Get reference to InputManager singleton
         _input = InputManager.Instance;
     }
 
@@ -62,7 +60,6 @@ public class Player : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        // Visualize the ground check area in the editor
         if (_groundCheck != null)
         {
             Gizmos.color = Color.green;
@@ -72,7 +69,6 @@ public class Player : MonoBehaviour
 
     void OnDisable()
     {
-        // Unsubscribe from input events to prevent memory leaks
         if (InputManager.Instance != null)
         {
             InputManager.Instance.OnJumpStarted -= HandleJumpInput;
@@ -80,9 +76,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Handles timers such as coyote timer.
-    /// </summary>
     void HandleTimers()
     {
         if (!_isGrounded)
@@ -99,26 +92,17 @@ public class Player : MonoBehaviour
         else _jumpBufferTimer = 0;
     }
 
-    /// <summary>
-    /// Applies movement to the player based on input.
-    /// </summary>
     void ApplyMovement()
     {
         float moveInput = _input.MoveInput;
         _rb.linearVelocity = new Vector2(moveInput * MoveSpeed, _rb.linearVelocity.y);
     }
 
-    /// <summary>
-    /// Checks if the player is grounded.
-    /// </summary>
     void CheckGroundedStatus()
     {
         _isGrounded = Physics2D.OverlapBox(_groundCheck.position, _groundCheckSize, 0, _groundLayer);
     }
 
-    /// <summary>
-    /// Updates the player's physics state, including jumping status.
-    /// </summary>
     void UpdatePhysicsState()
     {
         if (_isGrounded && _rb.linearVelocity.y <= 0)
@@ -127,9 +111,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Applies jump if pressed jump button just before landing.
-    /// </summary>
     void ProcessJumpBuffer()
     {
         if (_jumpBufferTimer > 0 && (_isGrounded || _coyoteTimer > 0) && !_isJumping)
@@ -138,23 +119,16 @@ public class Player : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Executes the physical jump action.
-    /// </summary>
     void ExecuteJump()
     {
-        // Reset jump state to prevent duplicate jumps.
         _isJumping = true;
         _coyoteTimer = 0;
         _jumpBufferTimer = 0;
 
-        _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0); // Reset vertical velocity before jumping.
+        _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0);
         _rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
     }
 
-    /// <summary>
-    /// Applies jump force to the player when jump input is initiated.
-    /// </summary>
     void HandleJumpInput()
     {
         _jumpBufferTimer = JumpBufferTime;
@@ -164,9 +138,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Cuts the jump height when jump input is canceled.
-    /// </summary>
     void CutJump()
     {
         if (_rb.linearVelocity.y > 0)
