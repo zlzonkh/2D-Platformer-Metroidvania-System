@@ -2,31 +2,21 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Manages user input through a singleton pattern.
-/// </summary>
 public class InputManager : MonoBehaviour
 {
-    // --- Singleton Setup ---
-    // Private static instance
     private static InputManager instance;
-    // Public static instance for global access from other scripts
     public static InputManager Instance => instance;
 
-    // Private PlayerInput reference
     private PlayerInput _inputActions;
 
-    // --- Properties to Expose Input Values ---
     public float MoveInput { get; private set; }
     public bool IsJumpPressed { get; private set; }
 
-    // --- Events for Input Actions ---
     public event Action OnJumpStarted;
     public event Action OnJumpCanceled;
 
     void Awake()
     {
-        // --- Initialize Singleton and Prevent Duplicates ---
         if (instance == null)
         {
             instance = this;
@@ -42,7 +32,6 @@ public class InputManager : MonoBehaviour
 
     void OnEnable()
     {
-        // Subscribe to input action events
         _inputActions.actions["Move"].performed += OnMove;
         _inputActions.actions["Move"].canceled += OnMove;
         _inputActions.actions["Jump"].performed += OnJump;
@@ -51,7 +40,6 @@ public class InputManager : MonoBehaviour
 
     void OnDisable()
     {
-        // Unsubscribe to prevent memory leaks when disabled
         _inputActions.actions["Move"].performed -= OnMove;
         _inputActions.actions["Move"].canceled -= OnMove;
         _inputActions.actions["Jump"].performed -= OnJump;
