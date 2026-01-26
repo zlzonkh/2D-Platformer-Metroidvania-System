@@ -16,13 +16,13 @@ public class Player : MonoBehaviour
     [SerializeField] private Vector2 _groundCheckSize = new(0.425f, 0.05f);
     [SerializeField] private LayerMask _groundLayer;
 
-    Rigidbody2D _rb;
-    InputManager _input;
+    private Rigidbody2D _rb;
+    private InputManager _input;
 
-    private float _coyoteTimer = 0.0f;
-    private float _jumpBufferTimer = 0.0f;
-    private bool _isJumping = false;
-    private bool _isGrounded = false;
+    private float _coyoteTimer;
+    private float _jumpBufferTimer;
+    private bool _isJumping;
+    private bool _isGrounded;
 
     private bool CanJump => (_isGrounded || _coyoteTimer > 0) && !_isJumping;
 
