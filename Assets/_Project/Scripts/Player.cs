@@ -3,10 +3,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [field: Header("Movement")]
-    [field: SerializeField] public float MoveSpeed { get; private set; } = 5.0f;
+    [field: SerializeField] public float MoveSpeed { get; private set; } = 6.0f;
 
     [field: Header("Jump")]
-    [field: SerializeField] public float JumpForce { get; private set; } = 12.8f;
+    [field: SerializeField] public float JumpForce { get; private set; } = 18.5f;
     [field: SerializeField] public float JumpCutMultiplier { get; private set; } = 0.309f;
     [field: SerializeField] public float CoyoteTime { get; private set; } = 0.05f;
     [field: SerializeField] public float JumpBufferTime { get; private set; } = 0.05f;
