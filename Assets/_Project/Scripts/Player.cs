@@ -39,9 +39,11 @@ public class Player : MonoBehaviour
         {
             InputManager.Instance.OnJumpStarted -= HandleJumpInput;
             InputManager.Instance.OnJumpCanceled -= CutJump;
+            InputManager.Instance.OnAttackStarted -= HandleAttackInput;
 
             InputManager.Instance.OnJumpStarted += HandleJumpInput;
             InputManager.Instance.OnJumpCanceled += CutJump;
+            InputManager.Instance.OnAttackStarted += HandleAttackInput;
         }
     }
 
@@ -69,6 +71,7 @@ public class Player : MonoBehaviour
         {
             InputManager.Instance.OnJumpStarted -= HandleJumpInput;
             InputManager.Instance.OnJumpCanceled -= CutJump;
+            InputManager.Instance.OnAttackStarted -= HandleAttackInput;
         }
     }
 
@@ -151,6 +154,16 @@ public class Player : MonoBehaviour
         {
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _rb.linearVelocity.y * JumpCutMultiplier);
         }
+    }
+
+    #endregion
+
+    #region Attack Mechanics
+
+    void HandleAttackInput()
+    {
+        // TODO: Implement attack input handling.
+        Debug.Log("Attack input received.");
     }
 
     #endregion

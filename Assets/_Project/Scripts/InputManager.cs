@@ -14,6 +14,7 @@ public class InputManager : MonoBehaviour
 
     public event Action OnJumpStarted;
     public event Action OnJumpCanceled;
+    public event Action OnAttackStarted;
 
     void Awake()
     {
@@ -36,6 +37,7 @@ public class InputManager : MonoBehaviour
         _inputActions.actions["Move"].canceled += OnMove;
         _inputActions.actions["Jump"].performed += OnJump;
         _inputActions.actions["Jump"].canceled += OnJump;
+        _inputActions.actions["Attack"].performed += OnAttack;
     }
 
     void OnDisable()
@@ -44,6 +46,7 @@ public class InputManager : MonoBehaviour
         _inputActions.actions["Move"].canceled -= OnMove;
         _inputActions.actions["Jump"].performed -= OnJump;
         _inputActions.actions["Jump"].canceled -= OnJump;
+        _inputActions.actions["Attack"].performed -= OnAttack;
     }
 
     void OnMove(InputAction.CallbackContext context)
@@ -62,6 +65,16 @@ public class InputManager : MonoBehaviour
         else if (context.canceled)
         {
             OnJumpCanceled?.Invoke();
+        }
+    }
+
+    void OnAttack(InputAction.CallbackContext context)
+    {
+        IsJumpPressed = context.ReadValueAsButton();
+
+        if (context.performed)
+        {
+            OnAttackStarted?.Invoke();
         }
     }
 }
