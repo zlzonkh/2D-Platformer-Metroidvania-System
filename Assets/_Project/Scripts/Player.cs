@@ -16,6 +16,11 @@ public class Player : MonoBehaviour
     [SerializeField] private Vector2 _groundCheckSize = new(0.425f, 0.05f);
     [SerializeField] private LayerMask _groundLayer;
 
+    [Header("Combat")]
+    [SerializeField] private Transform _attackPoint;
+    [SerializeField] private Vector2 _attackRange = new(2.0f, 1.0f);
+
+
     private Rigidbody2D _rb;
     private InputManager _input;
 
@@ -81,6 +86,12 @@ public class Player : MonoBehaviour
         {
             Gizmos.color = Color.green;
             Gizmos.DrawWireCube(_groundCheck.position, _groundCheckSize);
+        }
+
+        if (_attackPoint != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(_attackPoint.position, _attackRange);
         }
     }
 
