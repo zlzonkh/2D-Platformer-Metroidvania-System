@@ -23,11 +23,13 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D _rb;
     private InputManager _input;
+    private SpriteRenderer _sr;
 
     private float _coyoteTimer;
     private float _jumpBufferTimer;
     private bool _isJumping;
     private bool _isGrounded;
+    private bool _isFacingLeft;
 
     private bool CanJump => (_isGrounded || _coyoteTimer > 0) && !_isJumping;
 
@@ -36,6 +38,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _sr = GetComponent<SpriteRenderer>();
     }
 
     void OnEnable()
@@ -60,6 +63,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         UpdateTimers();
+        UpdateFacingDirection();
     }
 
     void FixedUpdate()
@@ -110,6 +114,27 @@ public class Player : MonoBehaviour
         {
             _isJumping = false;
         }
+    }
+
+    void UpdateFacingDirection()
+    {
+        float moveInput = _input.MoveInput;
+        if (moveInput < 0 && !_isFacingLeft)
+        {
+            _isFacingLeft = true;
+        }
+        else if (moveInput > 0 && _isFacingLeft)
+        {
+            _isFacingLeft = false;
+        }
+
+        if (_attackPoint != null)
+        {
+            float xOffset = Mathf.Abs(_attackPoint.localPosition.x);
+            _attackPoint.localPosition = new Vector3(_isFacingLeft ? -xOffset : xOffset, _attackPoint.localPosition.y, 0);
+        }
+
+        _sr.flipX = _isFacingLeft;
     }
 
     #endregion
