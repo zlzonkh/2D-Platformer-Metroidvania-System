@@ -69,6 +69,7 @@ public class Player : MonoBehaviour
     {
         UpdateTimers();
         UpdateFacingDirection();
+        UpdateAttackPoint();
     }
 
     void FixedUpdate()
@@ -133,13 +134,6 @@ public class Player : MonoBehaviour
             _isFacingLeft = false;
         }
 
-        if (_attackPoint != null)
-        {
-            float xOffset = Mathf.Abs(_attackPoint.localPosition.x);
-            _attackPoint.localPosition = new Vector3(_isFacingLeft ? -xOffset : xOffset, _attackPoint.localPosition.y, 0);
-        }
-
-        _sr.flipX = _isFacingLeft;
         _spriteRenderer.flipX = _isFacingLeft;
     }
 
@@ -206,6 +200,18 @@ public class Player : MonoBehaviour
     {
         // TODO: Implement attack input handling.
         Debug.Log("Attack input received.");
+    }
+
+    void UpdateAttackPoint()
+    {
+        if (_attackPoint == null) return;
+
+        float halfWidth = _attackRange.x / 2f;
+        float xOffset = 0f;
+
+        float targetX = _isFacingLeft ? -(xOffset + halfWidth) : (xOffset + halfWidth);
+
+        _attackPoint.localPosition = new Vector3(targetX, _attackPoint.localPosition.y, 0);
     }
 
     #endregion
