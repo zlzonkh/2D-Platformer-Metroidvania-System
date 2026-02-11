@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Visuals")]
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+
     [field: Header("Movement")]
     [field: SerializeField] public float MoveSpeed { get; private set; } = 6.0f;
 
@@ -20,10 +23,8 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _attackPoint;
     [SerializeField] private Vector2 _attackRange = new(2.0f, 1.0f);
 
-
     private Rigidbody2D _rb;
     private InputManager _input;
-    private SpriteRenderer _sr;
 
     private float _coyoteTimer;
     private float _jumpBufferTimer;
@@ -38,7 +39,11 @@ public class Player : MonoBehaviour
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _sr = GetComponent<SpriteRenderer>();
+
+        if (_spriteRenderer == null)
+        {
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
     }
 
     void OnEnable()
@@ -135,6 +140,7 @@ public class Player : MonoBehaviour
         }
 
         _sr.flipX = _isFacingLeft;
+        _spriteRenderer.flipX = _isFacingLeft;
     }
 
     #endregion
