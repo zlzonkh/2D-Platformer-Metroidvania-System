@@ -19,9 +19,11 @@ public class Player : MonoBehaviour
     [SerializeField] private Vector2 _groundCheckSize = new(0.425f, 0.05f);
     [SerializeField] private LayerMask _groundLayer;
 
-    [Header("Combat")]
+    [field: Header("Combat")]
+    [field: SerializeField] public int AttackDamage { get; private set; } = 10;
     [SerializeField] private Transform _attackPoint;
     [SerializeField] private Vector2 _attackRange = new(2.0f, 1.0f);
+    [SerializeField] private LayerMask _enemyLayer;
 
     private Rigidbody2D _rb;
     private InputManager _input;
@@ -198,8 +200,27 @@ public class Player : MonoBehaviour
 
     void HandleAttackInput()
     {
-        // TODO: Implement attack input handling.
-        Debug.Log("Attack input received.");
+        ExecuteAttack();
+    }
+
+    void ExecuteAttack()
+    {
+        if (_attackPoint == null) return;
+
+        Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(
+            _attackPoint.position,
+            _attackRange,
+            0f,
+            _enemyLayer);
+
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            IDamageable damageable = enemy.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                damageable.TakeDamage(AttackDamage);
+            }
+        }
     }
 
     void UpdateAttackPoint()
