@@ -131,7 +131,7 @@ public class Player : MonoBehaviour
             _isFacingLeft = false;
         }
 
-        _spriteRenderer.flipX = _isFacingLeft;
+        transform.localScale = new Vector3(_isFacingLeft ? -1 : 1, 1, 1);
     }
 
     #endregion
@@ -225,7 +225,7 @@ public class Player : MonoBehaviour
         float halfWidth = _attackRange.x / 2f;
         float xOffset = 0f;
 
-        float targetX = _isFacingLeft ? -(xOffset + halfWidth) : (xOffset + halfWidth);
+        float targetX = xOffset + halfWidth;
 
         _attackPoint.localPosition = new Vector3(targetX, _attackPoint.localPosition.y, 0);
     }
