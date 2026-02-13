@@ -105,19 +105,12 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    #region Environment & State
+    # region Global Logic
 
-    void CheckGroundedStatus()
+    void UpdateTimers()
     {
-        _isGrounded = Physics2D.OverlapBox(_groundCheck.position, _groundCheckSize, 0, _groundLayer);
-    }
-
-    void UpdatePhysicsState()
-    {
-        if (_isGrounded && _rb.linearVelocity.y <= 0.01f)
-        {
-            _isJumping = false;
-        }
+        _coyoteTimer = _isGrounded ? CoyoteTime : Mathf.Max(0, _coyoteTimer - Time.deltaTime);
+        _jumpBufferTimer = Mathf.Max(0, _jumpBufferTimer - Time.deltaTime);
     }
 
     void UpdateFacingDirection()
@@ -137,6 +130,23 @@ public class Player : MonoBehaviour
 
     #endregion
 
+    #region Environment & State
+
+    void CheckGroundedStatus()
+    {
+        _isGrounded = Physics2D.OverlapBox(_groundCheck.position, _groundCheckSize, 0, _groundLayer);
+    }
+
+    void UpdatePhysicsState()
+    {
+        if (_isGrounded && _rb.linearVelocity.y <= 0.01f)
+        {
+            _isJumping = false;
+        }
+    }
+
+    #endregion
+
     #region Horizontal Movement
 
     void ApplyMovement()
@@ -148,12 +158,6 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Jump Mechanics
-
-    void UpdateTimers()
-    {
-        _coyoteTimer = _isGrounded ? CoyoteTime : Mathf.Max(0, _coyoteTimer - Time.deltaTime);
-        _jumpBufferTimer = Mathf.Max(0, _jumpBufferTimer - Time.deltaTime);
-    }
 
     void ProcessJumpBuffer()
     {
