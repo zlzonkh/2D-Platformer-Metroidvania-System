@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
 
     [field: Header("Combat")]
     [field: SerializeField] public int AttackDamage { get; private set; } = 10;
+    [field: SerializeField] public float AttackCooldown { get; private set; } = 0.5f;
     [SerializeField] private Transform _attackPoint;
     [SerializeField] private Vector2 _attackRange = new(2.0f, 1.0f);
     [SerializeField] private LayerMask _enemyLayer;
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour
 
     private float _coyoteTimer;
     private float _jumpBufferTimer;
+    private float _attackCooldownTimer;
     private bool _isJumping;
     private bool _isGrounded;
     private bool _isFacingLeft;
@@ -111,6 +113,7 @@ public class Player : MonoBehaviour
     {
         _coyoteTimer = _isGrounded ? CoyoteTime : Mathf.Max(0, _coyoteTimer - Time.deltaTime);
         _jumpBufferTimer = Mathf.Max(0, _jumpBufferTimer - Time.deltaTime);
+        _attackCooldownTimer = Mathf.Max(0, _attackCooldownTimer - Time.deltaTime);
     }
 
     void UpdateFacingDirection()
@@ -200,7 +203,11 @@ public class Player : MonoBehaviour
 
     void HandleAttackInput()
     {
-        _attackVFXAnimator.SetTrigger("OnAttack");
+        if (_attackCooldownTimer <= 0)
+        {
+            _attackVFXAnimator.SetTrigger("OnAttack");
+            _attackCooldownTimer = AttackCooldown;
+        }
     }
 
     public void ExecuteAttack()
