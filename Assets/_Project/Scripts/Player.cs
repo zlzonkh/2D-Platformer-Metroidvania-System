@@ -4,6 +4,7 @@ public class Player : MonoBehaviour
 {
     [Header("Visuals")]
     [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private Animator _attackVFXAnimator;
 
     [field: Header("Movement")]
     [field: SerializeField] public float MoveSpeed { get; private set; } = 6.0f;
@@ -195,6 +196,7 @@ public class Player : MonoBehaviour
 
     void HandleAttackInput()
     {
+        _attackVFXAnimator.SetTrigger("OnAttack");
         ExecuteAttack();
     }
 

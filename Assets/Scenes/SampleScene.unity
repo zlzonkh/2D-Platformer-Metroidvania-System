@@ -816,6 +816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   _spriteRenderer: {fileID: 632712959}
+  _attackVFXAnimator: {fileID: 1726363677}
   <MoveSpeed>k__BackingField: 6
   <JumpForce>k__BackingField: 18.5
   <JumpCutMultiplier>k__BackingField: 0.309
