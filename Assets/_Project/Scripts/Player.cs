@@ -197,10 +197,9 @@ public class Player : MonoBehaviour
     void HandleAttackInput()
     {
         _attackVFXAnimator.SetTrigger("OnAttack");
-        ExecuteAttack();
     }
 
-    void ExecuteAttack()
+    public void ExecuteAttack()
     {
         if (_attackPoint == null) return;
 

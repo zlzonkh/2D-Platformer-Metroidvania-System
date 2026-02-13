@@ -1333,6 +1333,7 @@ GameObject:
   - component: {fileID: 1726363675}
   - component: {fileID: 1726363677}
   - component: {fileID: 1726363676}
+  - component: {fileID: 1726363678}
   m_Layer: 11
   m_Name: AttackEffect
   m_TagString: Untagged
@@ -1436,6 +1437,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1726363678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1726363674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e86002dd4ffb9544090a7a1cdf6529ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackVfxEventRelay
 --- !u!1 &2125388316
 GameObject:
   m_ObjectHideFlags: 0
