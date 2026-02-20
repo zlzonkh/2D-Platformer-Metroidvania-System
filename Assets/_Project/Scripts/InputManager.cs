@@ -10,7 +10,6 @@ public class InputManager : MonoBehaviour
     private PlayerInput _inputActions;
 
     public float MoveInput { get; private set; }
-    public bool IsJumpPressed { get; private set; }
 
     public event Action OnJumpStarted;
     public event Action OnJumpCanceled;
@@ -56,8 +55,6 @@ public class InputManager : MonoBehaviour
 
     void OnJump(InputAction.CallbackContext context)
     {
-        IsJumpPressed = context.ReadValueAsButton();
-
         if (context.performed)
         {
             OnJumpStarted?.Invoke();
@@ -70,8 +67,6 @@ public class InputManager : MonoBehaviour
 
     void OnAttack(InputAction.CallbackContext context)
     {
-        IsJumpPressed = context.ReadValueAsButton();
-
         if (context.performed)
         {
             OnAttackStarted?.Invoke();
