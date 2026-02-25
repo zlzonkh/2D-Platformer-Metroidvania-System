@@ -32,7 +32,7 @@ This project conforms to the [Conventional Commits](https://www.conventionalcomm
 
 ## Development Tools
 
-- Unity 6000.3.4f1
+- Unity 6000.3.9f1
 - Visual Studio Code
 - Git / GitHub
 - GitHub Copilot & Google Gemini
@@ -41,13 +41,13 @@ This project conforms to the [Conventional Commits](https://www.conventionalcomm
 
 ### Prerequisites
 
-- **Unity**: Unity 6000.3.4f1 or higher.
+- **Unity**: Unity 6000.3.9f1 or higher.
 - **Render Pipeline**: Universal Render Pipeline (URP)
 
 ### Key Packages
 
-- **Input System (1.17.0)**
-- **2D Tools**: Includes **2D Animation (13.0.2)** and **2D Sprite (1.0.0)** for VFX and character rendering.
+- **Input System (1.18.0)**
+- **2D Tools**: Includes **2D Animation (13.0.4)** and **2D Sprite (1.0.0)** for VFX and character rendering.
 
 ### Installation
 
