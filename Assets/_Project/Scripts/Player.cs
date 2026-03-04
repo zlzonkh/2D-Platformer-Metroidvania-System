@@ -109,6 +109,16 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        CheckDamage(collision.gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        CheckDamage(collision.gameObject);
+    }
+
     #endregion
 
     # region Global Logic
@@ -256,6 +266,15 @@ public class Player : MonoBehaviour, IDamageable
         if (CurrentHealth <= 0)
         {
             OnDie();
+        }
+    }
+
+    void CheckDamage(GameObject other)
+    {
+        IDamageSource damageSource = other.GetComponentInParent<IDamageSource>();
+        if (damageSource != null)
+        {
+            TakeDamage(damageSource.DamageAmount);
         }
     }
 
