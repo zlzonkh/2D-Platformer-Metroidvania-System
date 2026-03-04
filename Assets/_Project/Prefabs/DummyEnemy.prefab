@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DummyEnemy
   _maxHealth: 30
+  _contactDamage: 1
 --- !u!61 &2555882009947027865
 BoxCollider2D:
   m_ObjectHideFlags: 0
