@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     [Header("Visuals")]
     [SerializeField] private SpriteRenderer _spriteRenderer;
@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
 
     [field: Header("Combat")]
+    [field: SerializeField] public int MaxHealth { get; private set; } = 5;
+    public int CurrentHealth { get; private set; }
     [field: SerializeField] public int AttackDamage { get; private set; } = 10;
     [field: SerializeField] public float AttackCooldown { get; private set; } = 0.5f;
     [SerializeField] private Transform _attackPoint;
@@ -44,6 +46,8 @@ public class Player : MonoBehaviour
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+
+        CurrentHealth = MaxHealth;
     }
 
     void OnEnable()
@@ -243,4 +247,24 @@ public class Player : MonoBehaviour
     }
 
     #endregion
+
+    #region Health & Damage Mechanics
+
+    public void TakeDamage(int amount)
+    {
+        CurrentHealth = Mathf.Max(CurrentHealth - amount, 0);
+        if (CurrentHealth <= 0)
+        {
+            OnDie();
+        }
+    }
+
+    void OnDie()
+    {
+        CurrentHealth = MaxHealth;
+        gameObject.SetActive(false);
+    }
+
+    #endregion
 }
+

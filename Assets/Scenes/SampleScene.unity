@@ -827,6 +827,7 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  <MaxHealth>k__BackingField: 5
   <AttackDamage>k__BackingField: 10
   <AttackCooldown>k__BackingField: 0.5
   _attackPoint: {fileID: 40474195}
