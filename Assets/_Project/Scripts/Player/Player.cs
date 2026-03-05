@@ -29,6 +29,12 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private Vector2 _attackRange = new(2.0f, 1.0f);
     [SerializeField] private LayerMask _enemyLayer;
 
+    public PlayerStateMachine StateMachine { get; private set; }
+    public PlayerIdleState IdleState { get; private set; }
+    public PlayerMoveState MoveState { get; private set; }
+    public PlayerJumpState JumpState { get; private set; }
+    public PlayerAttackState AttackState { get; private set; }
+
     private Rigidbody2D _rb;
     private InputManager _input;
 
@@ -46,6 +52,11 @@ public class Player : MonoBehaviour, IDamageable
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        StateMachine = new PlayerStateMachine();
+        IdleState = new PlayerIdleState(this, StateMachine);
+        MoveState = new PlayerMoveState(this, StateMachine);
+        JumpState = new PlayerJumpState(this, StateMachine);
+        AttackState = new PlayerAttackState(this, StateMachine);
 
         CurrentHealth = MaxHealth;
     }
