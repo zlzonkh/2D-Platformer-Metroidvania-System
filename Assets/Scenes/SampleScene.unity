@@ -436,7 +436,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7412703276173103145, guid: 0f0aa091cfc584844a49cf7fffbf59b1, type: 3}
       propertyPath: m_Name
-      value: Slime
+      value: SlimeEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 7465403617447922832, guid: 0f0aa091cfc584844a49cf7fffbf59b1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1335,6 +1335,10 @@ PrefabInstance:
     - target: {fileID: 7412703276173103145, guid: 17934f19a721fd24585d7ff8eb86ea9d, type: 3}
       propertyPath: m_Name
       value: DummyEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7412703276173103145, guid: 17934f19a721fd24585d7ff8eb86ea9d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7465403617447922832, guid: 17934f19a721fd24585d7ff8eb86ea9d, type: 3}
       propertyPath: m_LocalPosition.x
